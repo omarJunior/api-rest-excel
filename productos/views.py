@@ -49,7 +49,7 @@ class ProductosViewSet(viewsets.ModelViewSet):
                     continue
                 idDict = dict()
                 idDict['codigo'] = row[0]
-                idDict['NombreProducto'] = row[1]
+                idDict['nombreProducto'] = row[1]
                 idDict['precio'] = row[2]
                 idDict['stock'] = row[3]
                 idDict['unidad'] = row[4]
