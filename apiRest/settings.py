@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'productos',
     'vehiculos',
     'articulos',
+    'saberpro',
     'rest_framework',
 ]
 
