@@ -26,7 +26,7 @@ class ClientesViewSet(viewsets.ModelViewSet):
     serializer_class = ClientesSerializer
     
     @action(detail=False, methods=['post'], url_path="leer-csv", url_name="leer_clientes")
-    def leerExcel(self, request, pK=None):
+    def leerExcel(self, request, pk=None):
         try:
             file = request.FILES['csvClientes']
             file_name = default_storage.save(file.name, file)
@@ -39,28 +39,15 @@ class ClientesViewSet(viewsets.ModelViewSet):
             if data == False:
                 file.close()
                 os.remove(file_url)
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los clientes'})
-            Clientes.objects.bulk_create(data)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter=";", quotechar='"')
-                clientesList = list(reader)
-            json_data = []
-            for index,row in enumerate(clientesList):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['nombre'] = row[0]
-                idDict['apellido'] = row[1]
-                idDict['direccion'] = row[2]
-                idDict['telefono'] = row[3]
-                idDict['correo'] = row[4]
-                idDict['ciudad'] = row[5]
-                idDict['empresa'] = row[6]
-                idDict['estatus'] = row[7]
-                json_data.append(idDict)
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los clientes!'})
+            csv_data = data[0] 
+            longitud_data = data[1]
+            Clientes.objects.bulk_create(csv_data)
+            last_item = Clientes.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
         except:
-            return Response({'Data' : 'Ha ocurrido un error xD'})
+            return Response({'Data' : 'Ha ocurrido un error!'})
+
 

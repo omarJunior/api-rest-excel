@@ -10,6 +10,7 @@ class Producto:
 
     def addProductos(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_productos = ['codigo','productoName','precio','stock','unidad','descuento','total']
         boleano = np.array_equal(columnas_productos, df.columns)
         if boleano == False:
@@ -28,4 +29,4 @@ class Producto:
                 )
             )
 
-        return productos
+        return [productos, longitud]

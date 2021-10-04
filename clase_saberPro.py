@@ -11,6 +11,7 @@ class Saber_pro:
 
     def addSaberPro(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_saber_pro = ['nombres','apellidos','genero','ciudad','matematicas','lenguaje','ciencias','ingles','ciudadanas','fisica']
         boleano = np.array_equal(columnas_saber_pro, df.columns)
         if boleano == False:
@@ -31,5 +32,5 @@ class Saber_pro:
                     fisica = df.iloc[i][9],
                 )
             )
-        return saber_pro
+        return [saber_pro, longitud]
 

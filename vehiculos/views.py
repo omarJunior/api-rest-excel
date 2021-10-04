@@ -34,30 +34,17 @@ class VehiculosViewSet(viewsets.ModelViewSet):
             file_url = file_url.replace("/", "")
             file_url = f"C:\\Programacion\\django\\apiRest\\{file_url}"
             vehi = Vehiculo(file_url)
-            vehiculo = vehi.addVehiculos()
-            if vehiculo == False:
+            data = vehi.addVehiculos()
+            if data == False:
                 file.close()
                 os.remove(file_url)
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los vehiculos'})
-            Vehiculos.objects.bulk_create(vehiculo)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter=";", quotechar='"')
-                vehiculosList = list(reader)
-            json_data = []
-            for index, row in enumerate(vehiculosList):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['placa'] = row[0]
-                idDict['modelo'] = row[1]
-                idDict['marca'] = row[2]
-                idDict['color'] = row[3]
-                idDict['precio'] = row[4]
-                idDict['descripcion'] = row[5]
-                json_data.append(idDict)
-
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los vehiculos!'})
+            csv_data = data[0]
+            longitud_data = data[1]
+            Vehiculos.objects.bulk_create(csv_data)
+            last_item = Vehiculos.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
         except:
-            return Response({'Data': 'Ha ocurrido un error'})
+            return Response({'Data': 'Ha ocurrido un error!'})

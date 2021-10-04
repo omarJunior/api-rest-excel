@@ -40,45 +40,13 @@ class CalificacionesViewSet(viewsets.ModelViewSet):
             if data == False:
                 file.close()
                 os.remove(file_url)
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para las calificaciones'})
-            Calificaciones.objects.bulk_create(data)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter=";", quotechar='"')
-                calificacionesList = list(reader)
-            json_data = []
-            for index, row in enumerate(calificacionesList):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['codinst'] = row[0]
-                idDict['nombreinstitucion'] = row[1]
-                idDict['codigomunicipio'] = row[2]
-                idDict['nombremunicipio'] = row[3]
-                idDict['departamento'] = row[4]
-                idDict['calendario'] = row[5]
-                idDict['naturaleza'] = row[6]
-                idDict['jornada'] = row[7]
-                idDict['promediomatematica'] = row[8]
-                idDict['promedioquimica'] = row[9]
-                idDict['promediofisica'] = row[10]
-                idDict['promediobiologia'] = row[11]
-                idDict['promediofilosofia'] = row[12]
-                idDict['promedioingles'] = row[13]
-                idDict['promediolenguaje'] = row[14]
-                idDict['promediosociales'] = row[15]
-                idDict['desviacionmatematica'] = row[16]
-                idDict['desviacionquimica'] = row[17]
-                idDict['desviacionfisica'] = row[18]
-                idDict['desviacionbiologia'] = row[19]
-                idDict['desviacionfilosofia'] = row[20]
-                idDict['desviacioningles'] = row[21]
-                idDict['desviacionlenguaje'] = row[22]
-                idDict['desviacionsociales'] = row[23]
-                idDict['evaluados'] = row[24]
-                idDict['periodo'] = row[25]
-                json_data.append(idDict)
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para las calificaciones!'})
+            csv_data = data[0] 
+            longitud_data = data[1]
+            Calificaciones.objects.bulk_create(csv_data)
+            last_item = Calificaciones.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
         except:
-            return Response({'Data': 'Ha ocurrido un error xD'})
+            return Response({'Data': 'Ha ocurrido un error!'})

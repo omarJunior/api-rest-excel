@@ -29,7 +29,6 @@ from saberpro.views import SaberProViewSet
 router = routers.DefaultRouter()
 router.register(r'calificaciones', CalificacionesViewSet) #Como aparecera en la ruta
 router.register(r'clientes', ClientesViewSet) #Como aparecera en la ruta
-#router.register(r'clientes', ClientesViewSet.as_view({'post':'leerExcel'}), basename='clientes') #Como aparecera en la ruta
 router.register(r'helados', HeladosViewSet) #Como aparecera en la ruta
 router.register(r'productos', ProductosViewSet) #Como aparecera en la ruta
 router.register(r'vehiculos', VehiculosViewSet) #Como aparecera en la ruta

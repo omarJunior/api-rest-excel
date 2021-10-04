@@ -38,28 +38,14 @@ class ArticulosViewSet(viewsets.ModelViewSet):
             if data == False:
                 file.close()
                 os.remove(file_url)
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los articulos'})
-            Articulos.objects.bulk_create(data)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter=";", quotechar='"')
-                articulosList = list(reader)
-
-            json_data = []
-            for index, row in enumerate(articulosList):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['nombre'] = row[0]
-                idDict['precio'] = row[1]
-                idDict['iva'] = row[2]
-                idDict['descripcion'] = row[3]
-                idDict['stock'] = row[4]
-                idDict['cantidad'] = row[5]
-                idDict['tipo'] = row[6]
-                json_data.append(idDict)
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los articulos!'})
+            csv_data = data[0] 
+            longitud_data = data[1]
+            Articulos.objects.bulk_create(csv_data)
+            last_item = Articulos.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
 
         except:
-            return Response({'Data':'Ha ocurrido un error xD'})
+            return Response({'Data':'Ha ocurrido un error!'})

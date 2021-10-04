@@ -39,32 +39,16 @@ class SaberProViewSet(viewsets.ModelViewSet):
             if data == False:
                 file.close()
                 os.remove(file_url)
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para las pruebas'})
-            SaberPro.objects.bulk_create(data)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter = ";", quotechar='"')
-                saber_pro_list = list(reader)
-            json_data = []
-            for index, row in enumerate(saber_pro_list):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['nombres'] = row[0]
-                idDict['apellidos'] = row[1]
-                idDict['genero'] = row[2]
-                idDict['ciudad'] = row[3]
-                idDict['matematicas'] = row[4]
-                idDict['lenguaje'] = row[5]
-                idDict['ciencias'] = row[6]
-                idDict['ingles'] = row[7]
-                idDict['ciudadanas'] = row[8]
-                idDict['fisica'] = row[9]
-                json_data.append(idDict)
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para las pruebas!'})
+            csv_data = data[0]
+            longitud_data = data[1]
+            SaberPro.objects.bulk_create(csv_data)
+            last_item = SaberPro.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
         except:
-            return Response({'Data' : 'Ha ocurrido un error xD'})
+            return Response({'Data' : 'Ha ocurrido un error!'})
 
         
 

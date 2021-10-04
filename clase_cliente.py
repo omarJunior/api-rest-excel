@@ -10,6 +10,7 @@ class Cliente:
 
     def addClientes(self):  
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_cliente = ['nombres', 'apellidos', 'direccion', 'telefono', 'correo', 'ciudad', 'empresa', 'estatus']
         boleano = np.array_equal(columnas_cliente, df.columns)
         if boleano == False:
@@ -28,7 +29,7 @@ class Cliente:
                     estatus = df.iloc[i][7]
                 )                
             )
-        return clientes
+        return [clientes, longitud]
 
     
 

@@ -38,22 +38,13 @@ class HeladosViewSet(viewsets.ModelViewSet):
             helado = Helado(file_url)
             data = helado.addHelados()
             if data == False:
-                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los helados'})
-            Helados.objects.bulk_create(data)
-            with open(file_url, 'rU') as csv_data:
-                reader = csv.reader(csv_data, delimiter=";", quotechar='"')
-                heladosList = list(reader)
-            json_data = []
-            for index, row in enumerate(heladosList):
-                if index == 0:
-                    continue
-                idDict = dict()
-                idDict['nombre'] = row[0]
-                idDict['precio'] = row[1]
-                idDict['stock'] = row[2]
-                json_data.append(idDict)
+                return Response({'Data' : 'Formato incorrecto, porfavor insertar un formato correcto para los helados!'})
+            csv_data = data[0] 
+            longitud_data = data[1]
+            Helados.objects.bulk_create(csv_data)
+            last_item = Helados.objects.all().order_by('-id')[:longitud_data].values()
             file.close()
             os.remove(file_url)
-            return Response(json_data)
+            return Response(last_item)
         except:
-            return Response({'Data': 'Ha ocurrido un error'})
+            return Response({'Data': 'Ha ocurrido un error!'})

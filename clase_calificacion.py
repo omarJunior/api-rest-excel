@@ -10,6 +10,7 @@ class Calificacion:
 
     def addCalificacion(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_calificaciones = [
             'codinst', 
             'nombreinstitucion', 
@@ -73,6 +74,6 @@ class Calificacion:
                     periodo = df.iloc[x][25],
                 )
             )
-        return calificaciones
+        return [calificaciones, longitud]
 
 

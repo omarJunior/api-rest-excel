@@ -10,8 +10,9 @@ class Articulo:
         
     def addArticulos(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_articulos = ['nombres', 'precio', 'iva', 'descripcion', 'stock', 'cantidad', 'tipo']
-        boleano = np.array_equal(columnas_articulos, df.columns);
+        boleano = np.array_equal(columnas_articulos, df.columns)
         if boleano == False:
             return False
         articulos = []
@@ -27,4 +28,4 @@ class Articulo:
                     tipo = df.iloc[i][6],
                 )
             )
-        return articulos
+        return [articulos, longitud]

@@ -10,6 +10,7 @@ class Vehiculo:
 
     def addVehiculos(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_vehiculos = ['placa','modelo','marca','color','precio','descripcion']
         boleano = np.array_equal(columnas_vehiculos, df.columns)
         if boleano == False:
@@ -26,4 +27,4 @@ class Vehiculo:
                     descripcion = df.iloc[i][5],
                 )
             )
-        return vehiculos
+        return [vehiculos, longitud]

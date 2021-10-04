@@ -10,6 +10,7 @@ class Helado:
 
     def addHelados(self):
         df = pd.read_csv(self.archivo, encoding="latin-1", sep=";")
+        longitud = len(df)
         columnas_helado = ['nombre', 'precio', 'stock']
         boleano = np.array_equal(columnas_helado, df.columns)
         if boleano == False:
@@ -24,4 +25,4 @@ class Helado:
                 )
             )
 
-        return helados
+        return [helados, longitud]
