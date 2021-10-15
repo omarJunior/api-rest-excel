@@ -25,15 +25,17 @@ from productos.views import ProductosViewSet
 from vehiculos.views import VehiculosViewSet
 from articulos.views import ArticulosViewSet
 from saberpro.views import SaberProViewSet
+from concesionario.views import ConcesionarioViewSet
 
 router = routers.DefaultRouter()
 router.register(r'calificaciones', CalificacionesViewSet) #Como aparecera en la ruta
 router.register(r'clientes', ClientesViewSet) #Como aparecera en la ruta
-router.register(r'helados', HeladosViewSet) #Como aparecera en la ruta
-router.register(r'productos', ProductosViewSet) #Como aparecera en la ruta
-router.register(r'vehiculos', VehiculosViewSet) #Como aparecera en la ruta
+router.register(r'helados', HeladosViewSet) 
+router.register(r'productos', ProductosViewSet) 
+router.register(r'vehiculos', VehiculosViewSet) 
 router.register(r'articulos', ArticulosViewSet)
 router.register(r'saberPro', SaberProViewSet)
+router.register(r'concesionario', ConcesionarioViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
