@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import csv
 import os
 
 #rest_framework

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 import os
-import csv
 
 # Elementos necesarios para que el API REST funcione 
 from rest_framework import viewsets 
